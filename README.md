@@ -24,13 +24,21 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+User authentification handler.
 
 ## Installation
 
 ```bash
 $ yarn install
 ```
+
+## Requirements
+Setup the file `.env.dev` and `.env.prod` at the root of the project
+```sh
+PORT=3000
+```
+* Set the host `PORT` environnement variable.
+
 
 ## Running the app
 
