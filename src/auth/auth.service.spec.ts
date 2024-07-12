@@ -19,7 +19,7 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('Credentials - Basic', async () => {
+  describe('Credentials - Basic', () => {
     it('should register a new user', async () => {
       const newUser: CredentialDto = {
         ...user,
