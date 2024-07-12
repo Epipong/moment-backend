@@ -33,7 +33,7 @@ $ yarn install
 ```
 
 ## Requirements
-Setup the file `.env.dev` and `.env.prod` at the root of the project
+Setup the file `.env`, `.env.test` at the root of the project
 ```sh
 PORT=3000
 ```

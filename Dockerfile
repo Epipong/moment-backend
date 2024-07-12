@@ -1,7 +1,8 @@
 FROM node:22
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN yarn install
+RUN yarn prisma generate
 COPY . .
-RUN npm run build
-CMD [ "npm", "run", "start:dev" ]
+RUN yarn run build
+CMD [ "yarn", "run", "start:dev" ]

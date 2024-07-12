@@ -1,12 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsAlphanumeric, IsStrongPassword } from 'class-validator';
+import { STRONG_PASSWORD_RULE } from 'src/rules/password';
 
 export class CredentialDto {
-  @ApiProperty({ required: true, nullable: false })
   @IsAlphanumeric()
   username: string;
 
-  @ApiProperty({ required: true, nullable: false })
-  @IsStrongPassword()
+  @IsStrongPassword(STRONG_PASSWORD_RULE)
   password: string;
+
+  @IsStrongPassword(STRONG_PASSWORD_RULE)
+  repeatPassword: string;
 }
