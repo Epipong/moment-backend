@@ -43,7 +43,7 @@ describe('AuthService', () => {
     }).rejects.toThrow(BadRequestException);
   });
 
-  it('should login a user and return the access token', async () => {
+  it('should login a user by username', async () => {
     const credential: LoginDto = {
       username: 'john.doe',
       email: 'john.doe@moment.com',
@@ -57,7 +57,31 @@ describe('AuthService', () => {
         email: credential.email,
       },
     });
-    const { access_token } = await authService.login(credential);
+    const { access_token } = await authService.login({
+      username: credential.username,
+      password: credential.password,
+    });
+    expect(access_token.length).toBeGreaterThan(0);
+  });
+
+  it('should login a user by email', async () => {
+    const credential: LoginDto = {
+      username: 'john.doe',
+      email: 'john.doe@moment.com',
+      password: '@1234Password',
+    };
+    const hashedPassword = await hashPassword(credential.password);
+    await prisma.user.create({
+      data: {
+        username: credential.username,
+        password: hashedPassword,
+        email: credential.email,
+      },
+    });
+    const { access_token } = await authService.login({
+      email: credential.email,
+      password: credential.password,
+    });
     expect(access_token.length).toBeGreaterThan(0);
   });
 

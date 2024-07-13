@@ -95,7 +95,9 @@ export class AuthService {
   public async login(credential: LoginDto): Promise<{ access_token: string }> {
     const { username, password, email } = credential;
     this.checkEmailOrUsernameExist(email, username);
-    const users = await this.usersService.findAll({ where: { username } });
+    const users = await this.usersService.findAll({
+      where: { username, email },
+    });
     this.checkUserExists(users);
     const user = users[0];
     this.checkPasswordMatches(password, user.password);
