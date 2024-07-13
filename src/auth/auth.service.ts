@@ -41,7 +41,7 @@ export class AuthService {
    */
   private checkUserExists(users: User[]) {
     if (users.length === 0) {
-      throw new NotFoundException('email not found');
+      throw new NotFoundException('email or username not found');
     }
   }
 
