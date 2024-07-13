@@ -16,15 +16,15 @@ export class UsersService {
     return this.usersRepertory.findMany(options);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return this.usersRepertory.findOne(+id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }

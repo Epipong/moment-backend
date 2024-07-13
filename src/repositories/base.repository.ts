@@ -13,7 +13,7 @@ export type Options = {
 
 @Injectable()
 export abstract class BaseRepository<T> {
-  constructor(protected prisma?: PrismaService) {}
+  constructor(protected prisma?: PrismaService) { }
 
   async create(data: unknown): Promise<T> {
     return await this.prisma[this.getEntity()].create(data);
@@ -30,6 +30,10 @@ export abstract class BaseRepository<T> {
       select: options.select,
     };
     return this.prisma[this.getEntity()].findMany(params);
+  }
+
+  async findOne(id: number): Promise<T | undefined> {
+    return this.prisma[this.getEntity()].findUnique({ where: { id } });
   }
 
   protected abstract getEntity(): string;
