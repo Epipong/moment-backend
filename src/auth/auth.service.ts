@@ -7,10 +7,14 @@ import { User } from '@prisma/client';
 import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { UsersService } from 'src/users/users.service';
 import { comparePasswords, hashPassword } from 'src/utils/password';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   /**
    * Check if the passwords are equal otherwise it throws a bad request exception.
@@ -47,8 +51,10 @@ export class AuthService {
     }
   }
 
-  private getAccessTokenFromPayload(payload: any) {
-    return '';
+  private async getAccessTokenFromPayload(payload: any) {
+    return this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET,
+    });
   }
 
   /**
@@ -88,7 +94,7 @@ export class AuthService {
       id: user.id,
     };
 
-    const accessToken = this.getAccessTokenFromPayload(payload);
+    const accessToken = await this.getAccessTokenFromPayload(payload);
 
     return {
       access_token: accessToken,

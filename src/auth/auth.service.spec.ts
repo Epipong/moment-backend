@@ -6,6 +6,7 @@ import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BadRequestException } from '@nestjs/common';
 import { hashPassword } from 'src/utils/password';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -14,7 +15,8 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const usersRepertory = new UsersRepository(prisma);
     const usersService = new UsersService(usersRepertory);
-    authService = new AuthService(usersService);
+    const jwtService = new JwtService();
+    authService = new AuthService(usersService, jwtService);
   });
 
   it('should be defined', () => {
