@@ -33,7 +33,7 @@ describe('UsersService', () => {
 
   it('should not find an unexisting user', async () => {
     const foundUser = await usersService.findOne(user.id);
-    expect(JSON.stringify(foundUser)).toBe(JSON.stringify(user));
+    expect(foundUser).toBeFalsy();
   });
 
   it('should update the username', async () => {

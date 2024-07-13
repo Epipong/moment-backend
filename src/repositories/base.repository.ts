@@ -36,5 +36,16 @@ export abstract class BaseRepository<T> {
     return this.prisma[this.getEntity()].findUnique({ where: { id } });
   }
 
+  async update(id: number, data: Partial<T>): Promise<T | undefined> {
+    return this.prisma[this.getEntity()].update({
+      where: { id },
+      data,
+    });
+  }
+
+  async delete(id: number): Promise<T | undefined> {
+    return this.prisma[this.getEntity()].delete({ where: { id } });
+  }
+
   protected abstract getEntity(): string;
 }
