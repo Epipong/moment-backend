@@ -1,14 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
 import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { UsersService } from 'src/users/users.service';
+import { hashPassword } from 'src/utils/password';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) { }
-
-  private readonly saltRounds = 10;
+  constructor(private usersService: UsersService) {}
 
   /**
    * Check if the passwords are equal otherwise it throws a bad request exception.
@@ -24,6 +26,16 @@ export class AuthService {
   }
 
   /**
+   * Check if the users array are not empty.
+   * @param users
+   */
+  private checkUserExist(users: User[]) {
+    if (users.length === 0) {
+      throw new NotFoundException('email not found');
+    }
+  }
+
+  /**
    * Register a new user.
    * @param username user name
    * @param password password
@@ -33,7 +45,7 @@ export class AuthService {
     const { username, password, repeatPassword } = credential;
     this.checkPasswordEqual(password, repeatPassword);
 
-    const hashedPassword = await bcrypt.hash(password, this.saltRounds);
+    const hashedPassword = await hashPassword(password);
     const createdUser = await this.usersService.create({
       username,
       password: hashedPassword,
@@ -46,6 +58,7 @@ export class AuthService {
   ): Promise<{ access_token: string }> {
     const { username, password } = credential;
     const users = await this.usersService.findAll({ where: { username } });
+    this.checkUserExist(users);
     return {
       access_token: '',
     };
