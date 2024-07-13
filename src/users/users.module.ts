@@ -4,11 +4,12 @@ import { UsersController } from './users.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersRepository } from 'src/repositories/users.repository';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, PrismaService, UsersRepository],
+  providers: [UsersService, PrismaService, UsersRepository, JwtService],
   imports: [PrismaModule],
-  exports: [UsersService, UsersRepository],
+  exports: [UsersService],
 })
 export class UsersModule {}
