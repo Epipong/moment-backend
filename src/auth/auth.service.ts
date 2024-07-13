@@ -51,6 +51,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Get the access token from the payload given.
+   * @param payload
+   * @returns
+   */
   private async getAccessTokenFromPayload(payload: any) {
     return this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET,

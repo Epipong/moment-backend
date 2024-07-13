@@ -1,5 +1,5 @@
 import { IsAlphanumeric, IsStrongPassword } from 'class-validator';
-import { STRONG_PASSWORD_RULE } from 'src/rules/password';
+import { STRONG_PASSWORD_RULE } from 'src/rules/password.rule';
 
 export class CredentialDto {
   @IsAlphanumeric()

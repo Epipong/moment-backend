@@ -13,7 +13,7 @@ export type Options = {
 
 @Injectable()
 export abstract class BaseRepository<T> {
-  constructor(protected prisma?: PrismaService) { }
+  constructor(protected prisma?: PrismaService) {}
 
   async create(data: unknown): Promise<T> {
     return await this.prisma[this.getEntity()].create(data);
