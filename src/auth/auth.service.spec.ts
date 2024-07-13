@@ -2,8 +2,9 @@ import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { user } from 'src/fixtures/users';
 import { UsersRepository } from 'src/repositories/users.repository';
-import { CredentialDto } from './dto/credential.dto';
+import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BadRequestException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -19,20 +20,33 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('Credentials - Basic', () => {
-    it('should register a new user', async () => {
-      const newUser: CredentialDto = {
-        ...user,
-        repeatPassword: user.password,
-      };
-      const userRegistered = await authService.register(newUser);
-      expect(userRegistered).toBeDefined();
-    });
+  it('should register a new user', async () => {
+    const newUser: RegisterDto = {
+      ...user,
+      repeatPassword: user.password,
+    };
+    const userRegistered = await authService.register(newUser);
+    expect(userRegistered.username).toBe(user.username);
+    expect(userRegistered.password).not.toBe(user.password);
+  });
 
-    // it('should login a user and return the access token', async () => {
-    //   const { access_token } = await authService.login(user);
-    //   expect(access_token).toBeInstanceOf(String);
-    //   expect(access_token.length).toBeGreaterThan(0);
-    // });
+  it('should not register a new user', async () => {
+    const newUser: RegisterDto = {
+      ...user,
+      repeatPassword: '123',
+    };
+    expect(async () => {
+      await authService.register(newUser);
+    }).rejects.toThrow(BadRequestException);
+  });
+
+  it('should login a user and return the access token', async () => {
+    const credential: CredentialDto = {
+      username: 'john.doe@moment.com',
+      password: '@1234Password',
+    };
+    await prisma.user.create({ data: credential });
+    const { access_token } = await authService.login(credential);
+    expect(access_token.length).toBeGreaterThan(0);
   });
 });

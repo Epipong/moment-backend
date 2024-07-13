@@ -7,7 +7,9 @@ export class CredentialDto {
 
   @IsStrongPassword(STRONG_PASSWORD_RULE)
   password: string;
+}
 
+export class RegisterDto extends CredentialDto {
   @IsStrongPassword(STRONG_PASSWORD_RULE)
   repeatPassword: string;
 }
