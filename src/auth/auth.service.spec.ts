@@ -5,6 +5,7 @@ import { UsersRepository } from 'src/repositories/users.repository';
 import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BadRequestException } from '@nestjs/common';
+import { hashPassword } from 'src/utils/password';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -45,7 +46,13 @@ describe('AuthService', () => {
       username: 'john.doe@moment.com',
       password: '@1234Password',
     };
-    await prisma.user.create({ data: credential });
+    const hashedPassword = await hashPassword(credential.password);
+    await prisma.user.create({
+      data: {
+        username: credential.username,
+        password: hashedPassword,
+      },
+    });
     const { access_token } = await authService.login(credential);
     expect(access_token.length).toBeGreaterThan(0);
   });

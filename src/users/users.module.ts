@@ -7,11 +7,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   controllers: [UsersController],
-  providers: [
-    UsersService,
-    PrismaService,
-    UsersRepository
-  ],
+  providers: [UsersService, PrismaService, UsersRepository],
   imports: [PrismaModule],
   exports: [UsersService, UsersRepository],
 })

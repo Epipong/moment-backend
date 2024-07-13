@@ -19,9 +19,9 @@ describe('UsersService', () => {
 
   it('should create a new user', async () => {
     const newUser: CreateUserDto = {
-      ...user
+      ...user,
     };
     const createdUser = await usersService.create(newUser);
-    expect(JSON.stringify(createdUser)).toBe(JSON.stringify(user))
+    expect(JSON.stringify(createdUser)).toBe(JSON.stringify(user));
   });
 });

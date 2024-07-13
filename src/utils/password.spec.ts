@@ -10,7 +10,7 @@ describe('Password', () => {
   it('should compare the hash with password and return true', async () => {
     const password = 'random_password';
     const hash = await hashPassword(password);
-    const isMatch = await comparePasswords(password, hash);
-    expect(isMatch).toBeTruthy();
+    const isMatched = await comparePasswords(password, hash);
+    expect(isMatched).toBeTruthy();
   });
 });

@@ -6,7 +6,7 @@ import {
 import { User } from '@prisma/client';
 import { CredentialDto, RegisterDto } from './dto/credential.dto';
 import { UsersService } from 'src/users/users.service';
-import { hashPassword } from 'src/utils/password';
+import { comparePasswords, hashPassword } from 'src/utils/password';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
    * @param password
    * @param repeatPassword
    */
-  private checkPasswordEqual(password: string, repeatPassword: string) {
+  private checkPasswordEquals(password: string, repeatPassword: string) {
     if (password !== repeatPassword) {
       throw new BadRequestException([
         'repeatPassword must be equal to password',
@@ -29,10 +29,26 @@ export class AuthService {
    * Check if the users array are not empty.
    * @param users
    */
-  private checkUserExist(users: User[]) {
+  private checkUserExists(users: User[]) {
     if (users.length === 0) {
       throw new NotFoundException('email not found');
     }
+  }
+
+  /**
+   * Check if the password matches with the hashed password.
+   * @param password
+   * @param hashedPassword
+   */
+  private async checkPasswordMatches(password: string, hashedPassword: string) {
+    const isMatched = await comparePasswords(password, hashedPassword);
+    if (!isMatched) {
+      throw new BadRequestException('password is invalid');
+    }
+  }
+
+  private getAccessTokenFromPayload(payload: any) {
+    return '';
   }
 
   /**
@@ -43,7 +59,7 @@ export class AuthService {
    */
   public async register(credential: RegisterDto): Promise<User> {
     const { username, password, repeatPassword } = credential;
-    this.checkPasswordEqual(password, repeatPassword);
+    this.checkPasswordEquals(password, repeatPassword);
 
     const hashedPassword = await hashPassword(password);
     const createdUser = await this.usersService.create({
@@ -53,14 +69,29 @@ export class AuthService {
     return createdUser;
   }
 
+  /**
+   * Login the user.
+   * @param credential
+   * @returns the access token
+   */
   public async login(
     credential: CredentialDto,
   ): Promise<{ access_token: string }> {
     const { username, password } = credential;
     const users = await this.usersService.findAll({ where: { username } });
-    this.checkUserExist(users);
+    this.checkUserExists(users);
+    const user = users[0];
+    this.checkPasswordMatches(password, user.password);
+
+    const payload = {
+      username: user.username,
+      id: user.id,
+    };
+
+    const accessToken = this.getAccessTokenFromPayload(payload);
+
     return {
-      access_token: '',
+      access_token: accessToken,
     };
   }
 }
