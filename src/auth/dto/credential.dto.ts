@@ -1,10 +1,17 @@
-import { IsAlphanumeric, IsEmail, IsStrongPassword } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 import { STRONG_PASSWORD_RULE } from 'src/rules/password.rule';
 
 export class LoginDto {
-  @IsAlphanumeric()
+  @IsOptional()
+  @IsString()
   username?: string;
 
+  @IsOptional()
   @IsEmail()
   email?: string;
 
