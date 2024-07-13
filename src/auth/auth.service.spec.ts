@@ -45,7 +45,8 @@ describe('AuthService', () => {
 
   it('should login a user and return the access token', async () => {
     const credential: LoginDto = {
-      username: 'john.doe@moment.com',
+      username: 'john.doe',
+      email: 'john.doe@moment.com',
       password: '@1234Password',
     };
     const hashedPassword = await hashPassword(credential.password);
@@ -53,9 +54,19 @@ describe('AuthService', () => {
       data: {
         username: credential.username,
         password: hashedPassword,
+        email: credential.email,
       },
     });
     const { access_token } = await authService.login(credential);
     expect(access_token.length).toBeGreaterThan(0);
+  });
+
+  it('should throw an exception if username or email are emptied', async () => {
+    const credential: LoginDto = {
+      password: '@123Password',
+    };
+    expect(async () => {
+      await authService.login(credential);
+    }).rejects.toThrow(BadRequestException);
   });
 });

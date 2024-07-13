@@ -16,6 +16,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  private checkEmailOrUsernameExist(email: string, username: string) {
+    if (!email && !username) {
+      throw new BadRequestException(['email or username must be not empty']);
+    }
+  }
+
   /**
    * Check if the passwords are equal otherwise it throws a bad request exception.
    * @param password
@@ -69,13 +75,14 @@ export class AuthService {
    * @returns {Promise<User>} the registered user
    */
   public async register(credential: RegisterDto): Promise<User> {
-    const { username, password, repeatPassword } = credential;
+    const { username, password, repeatPassword, email } = credential;
     this.checkPasswordEquals(password, repeatPassword);
 
     const hashedPassword = await hashPassword(password);
     const createdUser = await this.usersService.create({
       username,
       password: hashedPassword,
+      email,
     });
     return createdUser;
   }
@@ -86,7 +93,8 @@ export class AuthService {
    * @returns the access token
    */
   public async login(credential: LoginDto): Promise<{ access_token: string }> {
-    const { username, password } = credential;
+    const { username, password, email } = credential;
+    this.checkEmailOrUsernameExist(email, username);
     const users = await this.usersService.findAll({ where: { username } });
     this.checkUserExists(users);
     const user = users[0];
