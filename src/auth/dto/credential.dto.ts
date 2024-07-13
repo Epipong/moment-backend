@@ -1,7 +1,7 @@
 import { IsAlphanumeric, IsStrongPassword } from 'class-validator';
 import { STRONG_PASSWORD_RULE } from 'src/rules/password.rule';
 
-export class CredentialDto {
+export class LoginDto {
   @IsAlphanumeric()
   username: string;
 
@@ -9,7 +9,7 @@ export class CredentialDto {
   password: string;
 }
 
-export class RegisterDto extends CredentialDto {
+export class RegisterDto extends LoginDto {
   @IsStrongPassword(STRONG_PASSWORD_RULE)
   repeatPassword: string;
 }

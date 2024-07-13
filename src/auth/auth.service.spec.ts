@@ -2,7 +2,7 @@ import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { user } from 'src/fixtures/users';
 import { UsersRepository } from 'src/repositories/users.repository';
-import { CredentialDto, RegisterDto } from './dto/credential.dto';
+import { LoginDto, RegisterDto } from './dto/credential.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BadRequestException } from '@nestjs/common';
 import { hashPassword } from 'src/utils/password';
@@ -44,7 +44,7 @@ describe('AuthService', () => {
   });
 
   it('should login a user and return the access token', async () => {
-    const credential: CredentialDto = {
+    const credential: LoginDto = {
       username: 'john.doe@moment.com',
       password: '@1234Password',
     };

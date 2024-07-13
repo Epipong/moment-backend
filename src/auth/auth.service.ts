@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { CredentialDto, RegisterDto } from './dto/credential.dto';
+import { LoginDto, RegisterDto } from './dto/credential.dto';
 import { UsersService } from 'src/users/users.service';
 import { comparePasswords, hashPassword } from 'src/utils/password';
 import { JwtService } from '@nestjs/jwt';
@@ -85,9 +85,7 @@ export class AuthService {
    * @param credential
    * @returns the access token
    */
-  public async login(
-    credential: CredentialDto,
-  ): Promise<{ access_token: string }> {
+  public async login(credential: LoginDto): Promise<{ access_token: string }> {
     const { username, password } = credential;
     const users = await this.usersService.findAll({ where: { username } });
     this.checkUserExists(users);
