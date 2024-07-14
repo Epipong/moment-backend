@@ -88,7 +88,7 @@ $ yarn run test:cov
 
 ## 🧑‍💻Usage
 
-### 🔐Authentification Routes
+### 🔒Authentification Routes
 
 - ✍️Sign up
   - URL: `/auth/register`
@@ -113,7 +113,7 @@ $ yarn run test:cov
       "updatedAt": "2024-07-14T08:52:31.023Z"
     }
     ```
-- 🔐Login
+- 🔑Login
   - URL: `/auth/login`
   - Method: `POST`
   - Request Body:
