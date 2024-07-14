@@ -32,20 +32,23 @@ export class UsersController {
   }
 
   @Roles(['ADMIN', 'USER'])
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(':user_id')
+  async findOne(@Param('user_id') id: string) {
     return this.usersService.findOne(+id);
   }
 
   @Roles(['ADMIN', 'USER'])
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  @Patch(':user_id')
+  async update(
+    @Param('user_id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Roles(['ADMIN', 'USER'])
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Delete(':user_id')
+  async remove(@Param('user_id') id: string) {
     return this.usersService.remove(+id);
   }
 }

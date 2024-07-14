@@ -13,8 +13,8 @@ export class JwtAuthGuard implements CanActivate {
   ) {}
 
   private checkUserIdAuthorized(user: User, request: FastifyRequest) {
-    if (request.params['id']) {
-      const id = Number(request.params['id']);
+    if (request.params['user_id']) {
+      const id = Number(request.params['user_id']);
       if (user.role === 'USER' && user.id !== id) {
         throw new Error();
       }
