@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { LoginDto, RegisterDto } from './dto/credential.dto';
@@ -18,7 +18,7 @@ export class AuthService {
 
   private checkEmailOrUsernameExist(email: string, username: string) {
     if (!email && !username) {
-      throw new BadRequestException(['email or username must be not empty']);
+      throw new BadRequestException(['email or username must not be empty']);
     }
   }
 
@@ -41,7 +41,7 @@ export class AuthService {
    */
   private checkUserExists(users: User[]) {
     if (users.length === 0) {
-      throw new NotFoundException('email or username not found');
+      throw new UnauthorizedException('invalid email or username');
     }
   }
 
@@ -53,7 +53,7 @@ export class AuthService {
   private async checkPasswordMatches(password: string, hashedPassword: string) {
     const isMatched = await comparePasswords(password, hashedPassword);
     if (!isMatched) {
-      throw new BadRequestException('password is invalid');
+      throw new UnauthorizedException('invalid password');
     }
   }
 
