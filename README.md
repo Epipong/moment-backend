@@ -22,17 +22,17 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 💬Description
 
 This project is a backend application developed with NestJS and Prisma. It includes user authentication and integration with a PostgreSQL database.
 
-## Installation
+## 🔨Installation
 
 ```bash
 $ yarn install
 ```
 
-## Configuration
+## ⚙️Configuration
 
 Configure the environment variables by creating `.env`, `.env.test` and `.env.prod` files in the root of the project and adding your configurations to it:
 
@@ -51,7 +51,7 @@ PORT=3000
 - **JWT_REFRESH_SECRET**: Set your JWT refresh secret for the `refresh token`.
 - **PORT**: Set the port.
 
-## Running the app
+## 💻Running the app
 
 ```bash
 # development
@@ -73,7 +73,7 @@ $ yarn run docker:up
 $ yarn run docker:down
 ```
 
-## Test
+## 🧪Test
 
 ```bash
 # unit tests
@@ -86,7 +86,7 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Usage
+## 🧑‍💻Usage
 
 ### 🔐Authentification Routes
 
