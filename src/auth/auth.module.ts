@@ -20,7 +20,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     PrismaModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'moment-backend-secret',
-      signOptions: { expiresIn: Number(process.env.JWT_EXPIRES_IN) },
+      signOptions: { expiresIn: `${process.env.JWT_EXPIRES_IN}s` },
     }),
   ],
   exports: [AuthService],
