@@ -33,7 +33,9 @@ $ yarn install
 ```
 
 ## Configuration
+
 Configure the environment variables by creating `.env`, `.env.test` and `.env.prod` files in the root of the project and adding your configurations to it:
+
 ```sh
 NODE_ENV=development
 DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/moment
@@ -42,11 +44,12 @@ JWT_REFRESH_SECRET=your_jwt_refresh_secret
 JWT_EXPIRES_IN="60s"
 PORT=3000
 ```
-* __NODE_ENV__: Set the environnement "`development`", "`test`" or "`production`".
-* __DATABASE_URL__: Set the url of the postgresql.
-* __JWT_SECRET__: Set your JWT secret for the `access token`.
-* __JWT_REFRESH_SECRET__: Set your JWT refresh secret for the `refresh token`.
-* __PORT__: Set the port.
+
+- **NODE_ENV**: Set the environnement "`development`", "`test`" or "`production`".
+- **DATABASE_URL**: Set the url of the postgresql.
+- **JWT_SECRET**: Set your JWT secret for the `access token`.
+- **JWT_REFRESH_SECRET**: Set your JWT refresh secret for the `refresh token`.
+- **PORT**: Set the port.
 
 ## Running the app
 
@@ -84,45 +87,47 @@ $ yarn run test:cov
 ```
 
 ## Usage
-### Authentification Routes
-- Register
+
+### 🔐Authentification Routes
+
+- ✍️Sign up
   - URL: `/auth/register`
   - Method: `POST`
   - Request Body:
     ```json
     {
-        "username": "john.doe",
-        "email": "john.doe@moment.com",
-        "password": "@123Password",
-        "repeatPassword": "@123Password"
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "password": "@123Password",
+      "repeatPassword": "@123Password"
     }
     ```
   - Response:
     ```json
     {
-        "id": 1,
-        "username": "john.doe",
-        "email": "john.doe@moment.com",
-        "role": "USER",
-        "createdAt": "2024-07-14T08:52:31.023Z",
-        "updatedAt": "2024-07-14T08:52:31.023Z"
+      "id": 1,
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "role": "USER",
+      "createdAt": "2024-07-14T08:52:31.023Z",
+      "updatedAt": "2024-07-14T08:52:31.023Z"
     }
     ```
-- Login
-  - URL: `/auth/register`
+- 🔐Login
+  - URL: `/auth/login`
   - Method: `POST`
   - Request Body:
     ```json
     {
-        "email": "john.doe@moment.com",
-        "password": "@123Password"
+      "email": "john.doe@moment.com",
+      "password": "@123Password"
     }
     ```
     or...
     ```json
     {
-        "username": "john.doe",
-        "password": "@123Password"
+      "username": "john.doe",
+      "password": "@123Password"
     }
     ```
   - Response:
@@ -132,101 +137,102 @@ $ yarn run test:cov
     }
     ```
 
-### Users Routes
-- Get all users
+### 👥Users Routes
+
+- 📃Get all users
   - URL: `/users`
   - Method: `GET`
   - Response:
     ```json
     [
-        {
-            "id": 1,
-            "username": "john.doe",
-            "email": "john.doe@moment.com",
-            "role": "USER",
-            "createdAt": "2024-07-14T08:45:44.306Z",
-            "updatedAt": "2024-07-14T08:45:44.306Z"
-        },
-        {
-            "id": 2,
-            "username": "admin",
-            "email": "admin@moment.com",
-            "role": "ADMIN",
-            "createdAt": "2024-07-14T08:52:31.023Z",
-            "updatedAt": "2024-07-14T08:52:42.701Z"
-        }
+      {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
+        "role": "USER",
+        "createdAt": "2024-07-14T08:45:44.306Z",
+        "updatedAt": "2024-07-14T08:45:44.306Z"
+      },
+      {
+        "id": 2,
+        "username": "admin",
+        "email": "admin@moment.com",
+        "role": "ADMIN",
+        "createdAt": "2024-07-14T08:52:31.023Z",
+        "updatedAt": "2024-07-14T08:52:42.701Z"
+      }
     ]
     ```
-- Get user by ID:
+- 🔍Get user by ID:
   - URL: `/users/:id`
   - Method: `GET`
   - Response:
     ```json
-      {
-          "id": 1,
-          "username": "john.doe",
-          "email": "john.doe@moment.com",
-          "role": "USER",
-          "createdAt": "2024-07-14T08:45:44.306Z",
-          "updatedAt": "2024-07-14T08:45:44.306Z"
-      }
+    {
+      "id": 1,
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "role": "USER",
+      "createdAt": "2024-07-14T08:45:44.306Z",
+      "updatedAt": "2024-07-14T08:45:44.306Z"
+    }
     ```
-- Create user:
+- 🏗️Create user:
   - URL: `/users`
   - Method: `POST`
   - Request Body:
     ```json
     {
-        "username": "john.doe",
-        "email": "john.doe@moment.com",
-        "password": "@123Password",
-        "role": "USER"
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "password": "@123Password",
+      "role": "USER"
     }
     ```
   - Response:
     ```json
     {
-        "id": 1,
-        "username": "john.doe",
-        "email": "john.doe@moment.com",
-        "role": "USER",
-        "createdAt": "2024-07-14T12:15:13.633Z",
-        "updatedAt": "2024-07-14T12:15:13.633Z"
+      "id": 1,
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "role": "USER",
+      "createdAt": "2024-07-14T12:15:13.633Z",
+      "updatedAt": "2024-07-14T12:15:13.633Z"
     }
     ```
-- Update user
+- 📝Update user
   - URL: `/users/:id`
   - Method: `PATCH`
   - Request Body:
     ```json
     {
-        "username": "josh.doe",
-        "password": "@123Password"
+      "username": "josh.doe",
+      "password": "@123Password"
     }
     ```
   - Response:
     ```json
     {
-        "id": 1,
-        "username": "josh.pauline",
-        "email": "josh.doe@moment.com",
-        "role": "USER",
-        "createdAt": "2024-07-14T08:45:44.306Z",
-        "updatedAt": "2024-07-14T12:21:40.278Z"
+      "id": 1,
+      "username": "josh.pauline",
+      "email": "josh.doe@moment.com",
+      "role": "USER",
+      "createdAt": "2024-07-14T08:45:44.306Z",
+      "updatedAt": "2024-07-14T12:21:40.278Z"
     }
     ```
-- Delete user
+- 🗑️Delete user
   - URL: `/users/:id`
   - Method: `DELETE`
   - Response:
     ```json
     {
-        "id": 1,
-        "username": "john.doe",
-        "email": "john.doe@moment.com",
-        "role": "USER",
-        "createdAt": "2024-07-14T12:15:13.633Z",
-        "updatedAt": "2024-07-14T12:15:13.633Z"
+      "id": 1,
+      "username": "john.doe",
+      "email": "john.doe@moment.com",
+      "role": "USER",
+      "createdAt": "2024-07-14T12:15:13.633Z",
+      "updatedAt": "2024-07-14T12:15:13.633Z"
     }
     ```
 
