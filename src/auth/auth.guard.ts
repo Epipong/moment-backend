@@ -19,6 +19,9 @@ export class JwtAuthGuard implements CanActivate {
         throw new Error();
       }
     }
+    if (user.role === 'USER' && request.body['role']) {
+      request.body['role'] = 'USER';
+    }
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

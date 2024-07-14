@@ -6,7 +6,7 @@ import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, {
-    cors: false,
+    cors: true,
   });
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
