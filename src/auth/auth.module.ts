@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersService } from 'src/users/users.service';
 import { UsersRepository } from 'src/repositories/users.repository';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [AuthController],
@@ -18,10 +18,6 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
   ],
   imports: [
     PrismaModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'moment-backend-secret',
-      signOptions: { expiresIn: `${process.env.JWT_EXPIRES_IN}s` },
-    }),
   ],
   exports: [AuthService],
 })
