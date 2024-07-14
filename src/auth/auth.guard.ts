@@ -12,6 +12,15 @@ export class JwtAuthGuard implements CanActivate {
     private reflector: Reflector,
   ) {}
 
+  private checkUserIdAuthorized(user: User, request: FastifyRequest) {
+    if (request.params['id']) {
+      const id = Number(request.params['id']);
+      if (user.role === 'USER' && user.id !== id) {
+        throw new Error();
+      }
+    }
+  }
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get(Roles, context.getHandler());
     const request = context.switchToHttp().getRequest<FastifyRequest>();
@@ -26,6 +35,7 @@ export class JwtAuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       });
       const user: User = decoded;
+      this.checkUserIdAuthorized(user, request);
       request['user'] = user;
       return !roles || roles.some((role) => user.role === role);
     } catch (_) {
