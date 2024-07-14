@@ -148,7 +148,7 @@ $ yarn run test:cov
             "updatedAt": "2024-07-14T08:45:44.306Z"
         },
         {
-            "id": 4,
+            "id": 2,
             "username": "admin",
             "email": "admin@moment.com",
             "role": "ADMIN",
@@ -177,12 +177,59 @@ $ yarn run test:cov
   - Request Body:
     ```json
     {
-        "username": "davy.tran",
-        "email": "davy.tran@moment.com",
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
         "password": "@123Password",
         "role": "USER"
     }
     ```
+  - Response:
+    ```json
+    {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
+        "role": "USER",
+        "createdAt": "2024-07-14T12:15:13.633Z",
+        "updatedAt": "2024-07-14T12:15:13.633Z"
+    }
+    ```
+- Update user
+  - URL: `/users/:id`
+  - Method: `PATCH`
+  - Request Body:
+    ```json
+    {
+        "username": "josh.doe",
+        "password": "@123Password"
+    }
+    ```
+  - Response:
+    ```json
+    {
+        "id": 1,
+        "username": "josh.pauline",
+        "email": "josh.doe@moment.com",
+        "role": "USER",
+        "createdAt": "2024-07-14T08:45:44.306Z",
+        "updatedAt": "2024-07-14T12:21:40.278Z"
+    }
+    ```
+- Delete user
+  - URL: `/users/:id`
+  - Method: `DELETE`
+  - Response:
+    ```json
+    {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
+        "role": "USER",
+        "createdAt": "2024-07-14T12:15:13.633Z",
+        "updatedAt": "2024-07-14T12:15:13.633Z"
+    }
+    ```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
