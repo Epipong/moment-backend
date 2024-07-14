@@ -29,7 +29,6 @@ export class JwtAuthGuard implements CanActivate {
       });
       const user: User = decoded;
       request['user'] = user;
-
       return !roles || roles.some((role) => user.role === role);
     } catch (_) {
       return false;

@@ -1,8 +1,15 @@
 FROM node:22
-WORKDIR /app
-COPY package*.json ./
-COPY prisma/ ./
+WORKDIR /usr/src/app
+COPY package.json ./
+COPY yarn.lock ./
+COPY prisma ./prisma/
+
 RUN yarn install
+
 COPY . .
-RUN yarn run build
-CMD [ "yarn", "run", "start:dev" ]
+
+RUN npx prisma generate
+RUN yarn build
+
+EXPOSE 3000
+CMD [ "yarn", "start:dev" ]

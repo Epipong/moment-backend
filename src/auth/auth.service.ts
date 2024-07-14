@@ -79,12 +79,12 @@ export class AuthService {
     this.checkPasswordEquals(password, repeatPassword);
 
     const hashedPassword = await hashPassword(password);
-    const createdUser = await this.usersService.create({
+
+    return this.usersService.create({
       username,
       password: hashedPassword,
       email,
     });
-    return createdUser;
   }
 
   /**
@@ -104,7 +104,9 @@ export class AuthService {
 
     const payload = {
       username: user.username,
+      email: user.email,
       id: user.id,
+      role: user.role,
     };
 
     const accessToken = await this.getAccessTokenFromPayload(payload);

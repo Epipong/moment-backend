@@ -19,7 +19,7 @@ export abstract class BaseRepository<T> {
     return await this.prisma[this.getEntity()].create(data);
   }
 
-  async findMany(options: Options): Promise<T[]> {
+  async findMany(options: Options = {}): Promise<T[]> {
     const params = {
       where: options.where,
       take: options.limit,

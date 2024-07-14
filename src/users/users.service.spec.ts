@@ -25,6 +25,11 @@ describe('UsersService', () => {
     expect(JSON.stringify(createdUser)).toBe(JSON.stringify(user));
   });
 
+  it('should read all users', async () => {
+    const users = await usersService.findAll();
+    expect(users).toBeInstanceOf(Array);
+  });
+
   it('should find an existing user', async () => {
     await prisma.user.create({ data: user });
     const foundUser = await usersService.findOne(user.id);

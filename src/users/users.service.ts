@@ -12,7 +12,7 @@ export class UsersService {
     return this.usersRepertory.create({ data: createUserDto });
   }
 
-  async findAll(options?: Options) {
+  async findAll(options: Options = {}) {
     return this.usersRepertory.findMany(options);
   }
 
