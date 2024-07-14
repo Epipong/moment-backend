@@ -24,7 +24,7 @@
 
 ## Description
 
-User authentification handler.
+This project is a backend application developed with NestJS and Prisma. It includes user authentication and integration with a PostgreSQL database.
 
 ## Installation
 
@@ -32,13 +32,21 @@ User authentification handler.
 $ yarn install
 ```
 
-## Requirements
-Setup the file `.env`, `.env.test` at the root of the project
+## Configuration
+Configure the environment variables by creating `.env`, `.env.test` and `.env.prod` files in the root of the project and adding your configurations to it:
 ```sh
+NODE_ENV=development
+DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/moment
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_jwt_refresh_secret
+JWT_EXPIRES_IN="60s"
 PORT=3000
 ```
-* Set the host `PORT` environnement variable.
-
+* __NODE_ENV__: Set the environnement "`development`", "`test`" or "`production`".
+* __DATABASE_URL__: Set the url of the postgresql.
+* __JWT_SECRET__: Set your JWT secret for the `access token`.
+* __JWT_REFRESH_SECRET__: Set your JWT refresh secret for the `refresh token`.
+* __PORT__: Set the port.
 
 ## Running the app
 
@@ -50,7 +58,16 @@ $ yarn run start
 $ yarn run start:dev
 
 # production mode
-$ yarn run start:prod
+$ yarn run start:prod`
+
+# docker build
+$ yarn run docker:build
+
+# docker up
+$ yarn run docker:up
+
+# docker down
+$ yarn run docker:down
 ```
 
 ## Test
@@ -66,6 +83,106 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Usage
+### Authentification Routes
+- Register
+  - URL: `/auth/register`
+  - Method: `POST`
+  - Request Body:
+    ```json
+    {
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
+        "password": "@123Password",
+        "repeatPassword": "@123Password"
+    }
+    ```
+  - Response:
+    ```json
+    {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@moment.com",
+        "role": "USER",
+        "createdAt": "2024-07-14T08:52:31.023Z",
+        "updatedAt": "2024-07-14T08:52:31.023Z"
+    }
+    ```
+- Login
+  - URL: `/auth/register`
+  - Method: `POST`
+  - Request Body:
+    ```json
+    {
+        "email": "john.doe@moment.com",
+        "password": "@123Password"
+    }
+    ```
+    or...
+    ```json
+    {
+        "username": "john.doe",
+        "password": "@123Password"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "access_token": "new_jwt_access_token"
+    }
+    ```
+
+### Users Routes
+- Get all users
+  - URL: `/users`
+  - Method: `GET`
+  - Response:
+    ```json
+    [
+        {
+            "id": 1,
+            "username": "john.doe",
+            "email": "john.doe@moment.com",
+            "role": "USER",
+            "createdAt": "2024-07-14T08:45:44.306Z",
+            "updatedAt": "2024-07-14T08:45:44.306Z"
+        },
+        {
+            "id": 4,
+            "username": "admin",
+            "email": "admin@moment.com",
+            "role": "ADMIN",
+            "createdAt": "2024-07-14T08:52:31.023Z",
+            "updatedAt": "2024-07-14T08:52:42.701Z"
+        }
+    ]
+    ```
+- Get user by ID:
+  - URL: `/users/:id`
+  - Method: `GET`
+  - Response:
+    ```json
+      {
+          "id": 1,
+          "username": "john.doe",
+          "email": "john.doe@moment.com",
+          "role": "USER",
+          "createdAt": "2024-07-14T08:45:44.306Z",
+          "updatedAt": "2024-07-14T08:45:44.306Z"
+      }
+    ```
+- Create user:
+  - URL: `/users`
+  - Method: `POST`
+  - Request Body:
+    ```json
+    {
+        "username": "davy.tran",
+        "email": "davy.tran@moment.com",
+        "password": "@123Password",
+        "role": "USER"
+    }
+    ```
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

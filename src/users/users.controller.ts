@@ -13,7 +13,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
-import { ResponseUser } from './dto/response-user.dto';
+import { UserEntity } from './entities/user.entity';
+import { plainToInstance } from 'class-transformer';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -22,20 +23,23 @@ export class UsersController {
 
   @Roles(['ADMIN'])
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<ResponseUser> {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    const user = await this.usersService.create(createUserDto);
+    return plainToInstance(UserEntity, user);
   }
 
   @Roles(['ADMIN'])
   @Get()
-  async findAll(): Promise<ResponseUser[]> {
-    return this.usersService.findAll();
+  async findAll(): Promise<UserEntity[]> {
+    const users = await this.usersService.findAll();
+    return plainToInstance(UserEntity, users);
   }
 
   @Roles(['ADMIN', 'USER'])
   @Get(':user_id')
-  async findOne(@Param('user_id') id: string): Promise<ResponseUser> {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('user_id') id: string): Promise<UserEntity> {
+    const user = await this.usersService.findOne(+id);
+    return plainToInstance(UserEntity, user);
   }
 
   @Roles(['ADMIN', 'USER'])
@@ -43,13 +47,15 @@ export class UsersController {
   async update(
     @Param('user_id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<ResponseUser> {
-    return this.usersService.update(+id, updateUserDto);
+  ): Promise<UserEntity> {
+    const user = await this.usersService.update(+id, updateUserDto);
+    return plainToInstance(UserEntity, user);
   }
 
   @Roles(['ADMIN', 'USER'])
   @Delete(':user_id')
-  async remove(@Param('user_id') id: string): Promise<ResponseUser> {
-    return this.usersService.remove(+id);
+  async remove(@Param('user_id') id: string): Promise<UserEntity> {
+    const user = await this.usersService.remove(+id);
+    return plainToInstance(UserEntity, user);
   }
 }
