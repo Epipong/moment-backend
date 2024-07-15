@@ -3,8 +3,10 @@ import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/credential.dto';
 import { plainToInstance } from 'class-transformer';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { AccessTokenEntity } from './entities/access-token.entity';
 import {
   ApiBadRequestResponse,
+  ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -14,6 +16,9 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOkResponse({
+    type: UserEntity,
+  })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @Post('register')
   async register(@Body() credential: RegisterDto): Promise<UserEntity> {
@@ -21,6 +26,9 @@ export class AuthController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiOkResponse({
+    type: AccessTokenEntity,
+  })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @Post('login')

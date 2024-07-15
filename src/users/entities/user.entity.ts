@@ -39,7 +39,7 @@ export class UserEntity implements User {
   password: string;
 
   @ApiProperty({
-    type: Role,
+    type: String,
     description: 'This is an optional property',
     required: true,
   })

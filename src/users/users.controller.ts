@@ -15,7 +15,7 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { UserEntity } from './entities/user.entity';
 import { plainToInstance } from 'class-transformer';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
 @UseGuards(JwtAuthGuard)
@@ -23,6 +23,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOkResponse({
+    type: UserEntity,
+  })
   @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN'])
   @Post()
@@ -31,6 +34,10 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiOkResponse({
+    type: UserEntity,
+    isArray: true,
+  })
   @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN'])
   @Get()
@@ -39,6 +46,9 @@ export class UsersController {
     return plainToInstance(UserEntity, users);
   }
 
+  @ApiOkResponse({
+    type: UserEntity,
+  })
   @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Get(':user_id')
@@ -47,6 +57,9 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiOkResponse({
+    type: UserEntity,
+  })
   @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Patch(':user_id')
@@ -58,6 +71,9 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiOkResponse({
+    type: UserEntity,
+  })
   @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Delete(':user_id')
