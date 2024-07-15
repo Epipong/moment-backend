@@ -40,7 +40,6 @@ Configure the environment variables by creating `.env`, `.env.test` and `.env.pr
 NODE_ENV=development
 DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/moment
 JWT_SECRET=your_jwt_secret
-JWT_REFRESH_SECRET=your_jwt_refresh_secret
 JWT_EXPIRES_IN="60s"
 PORT=3000
 ```
@@ -48,7 +47,7 @@ PORT=3000
 - **NODE_ENV**: Set the environnement "`development`", "`test`" or "`production`".
 - **DATABASE_URL**: Set the url of the postgresql.
 - **JWT_SECRET**: Set your JWT secret for the `access token`.
-- **JWT_REFRESH_SECRET**: Set your JWT refresh secret for the `refresh token`.
+- **JWT_EXPIRES_IN**: Set the time. Ex: "60s", "7d"...
 - **PORT**: Set the port.
 
 ## 💻Running the app in Docker
@@ -125,6 +124,11 @@ You can see the documents API Swagger [here](http://localhost:3000/api/#/)
     ```
 
 ### 👥Users Routes
+
+- 🌐Headers
+  ```
+  Authorization: Bearer your_jwt_access_token
+  ```
 
 - 📃Get all users
   - URL: `/users`
