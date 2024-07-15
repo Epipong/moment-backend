@@ -42,6 +42,8 @@ export class RegisterDto {
     type: String,
     description: 'This is a required property',
     required: true,
+    minimum: 4,
+    maximum: 24,
   })
   @IsString()
   @MinLength(4)

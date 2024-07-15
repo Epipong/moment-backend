@@ -3,25 +3,59 @@ import { Role, User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
 export class UserEntity implements User {
-  @ApiProperty()
+  @ApiProperty({
+    type: Number,
+    description: 'This is a required property',
+    required: true,
+  })
   id: number;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    type: String,
+    description: 'This is a required property',
+    required: true,
+    nullable: false,
+    minimum: 4,
+    maximum: 24,
+  })
   username: string;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    type: String,
+    description: 'This is a required property',
+    required: true,
+    nullable: false,
+  })
   email: string;
 
   @Exclude()
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    type: String,
+    description: 'This is a required property',
+    required: true,
+    nullable: false,
+    minimum: 8,
+  })
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Role,
+    description: 'This is an optional property',
+    required: true,
+  })
   role: Role;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({
+    type: Date,
+    description: 'This is an optional property',
+    required: false,
+  })
   createdAt: Date;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({
+    type: Date,
+    description: 'This is an optional property',
+    required: false,
+  })
   updatedAt: Date;
 }
