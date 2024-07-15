@@ -15,12 +15,14 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { UserEntity } from './entities/user.entity';
 import { plainToInstance } from 'class-transformer';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN'])
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
@@ -28,6 +30,7 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN'])
   @Get()
   async findAll(): Promise<UserEntity[]> {
@@ -35,6 +38,7 @@ export class UsersController {
     return plainToInstance(UserEntity, users);
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Get(':user_id')
   async findOne(@Param('user_id') id: string): Promise<UserEntity> {
@@ -42,6 +46,7 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Patch(':user_id')
   async update(
@@ -52,6 +57,7 @@ export class UsersController {
     return plainToInstance(UserEntity, user);
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Roles(['ADMIN', 'USER'])
   @Delete(':user_id')
   async remove(@Param('user_id') id: string): Promise<UserEntity> {

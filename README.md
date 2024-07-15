@@ -73,6 +73,7 @@ $ yarn run test
 ```
 
 ## 🧑‍💻Usage
+You can see the documents API Swagger [here](http://localhost:3000/api/#/)
 
 ### 🔒Authentification Routes
 
