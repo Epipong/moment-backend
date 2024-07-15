@@ -6,7 +6,7 @@ import {
 import { User } from '@prisma/client';
 import { LoginDto, RegisterDto } from './dto/credential.dto';
 import { UsersService } from 'src/users/users.service';
-import { comparePasswords, hashPassword } from 'src/utils/password';
+import { comparePasswords } from 'src/utils/password';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -78,12 +78,9 @@ export class AuthService {
   public async register(credential: RegisterDto): Promise<User> {
     const { username, password, repeatPassword, email } = credential;
     this.checkPasswordEquals(password, repeatPassword);
-
-    const hashedPassword = await hashPassword(password);
-
     return this.usersService.create({
       username,
-      password: hashedPassword,
+      password,
       email,
     });
   }

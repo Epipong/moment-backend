@@ -19,10 +19,14 @@ describe('UsersService', () => {
 
   it('should create a new user', async () => {
     const newUser: CreateUserDto = {
-      ...user,
+      email: 'john.doe@moment.com',
+      username: 'john.doe',
+      password: '@123Password',
     };
     const createdUser = await usersService.create(newUser);
-    expect(JSON.stringify(createdUser)).toBe(JSON.stringify(user));
+    expect(createdUser.email).toBe('john.doe@moment.com');
+    expect(createdUser.username).toBe('john.doe');
+    expect(createdUser.password).not.toBe('@123Password');
   });
 
   it('should read all users', async () => {
@@ -44,9 +48,9 @@ describe('UsersService', () => {
   it('should update the username', async () => {
     await prisma.user.create({ data: user });
     const updatedUser = await usersService.update(user.id, {
-      username: 'davy.tran@moment.com',
+      username: 'davy.tran',
     });
-    expect(updatedUser.username).toBe('davy.tran@moment.com');
+    expect(updatedUser.username).toBe('davy.tran');
   });
 
   it('should remove a user', async () => {
