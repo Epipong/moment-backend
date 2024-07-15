@@ -59,6 +59,7 @@ $ yarn run docker:up
 
 # work around to run the app
 $ yarn prisma db push
+$ yarn run docker:down
 $ yarn run docker:up
 
 # run prisma studio
