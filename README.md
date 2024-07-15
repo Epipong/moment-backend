@@ -51,26 +51,18 @@ PORT=3000
 - **JWT_REFRESH_SECRET**: Set your JWT refresh secret for the `refresh token`.
 - **PORT**: Set the port.
 
-## 💻Running the app
+## 💻Running the app in Docker
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod`
-
-# docker build
-$ yarn run docker:build
-
 # docker up
 $ yarn run docker:up
 
-# docker down
-$ yarn run docker:down
+# work around to run the app
+$ yarn prisma db push
+$ yarn run docker:up
+
+# run prisma studio
+$ yarn prisma studio
 ```
 
 ## 🧪Test
@@ -78,12 +70,6 @@ $ yarn run docker:down
 ```bash
 # unit tests
 $ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
 ```
 
 ## 🧑‍💻Usage
