@@ -47,8 +47,13 @@ PORT=3000
 - **NODE_ENV**: Set the environnement "`development`", "`test`" or "`production`".
 - **DATABASE_URL**: Set the url of the postgresql.
 - **JWT_SECRET**: Set your JWT secret for the `access token`.
-- **JWT_EXPIRES_IN**: Set the time. Ex: "60s", "7d"...
-- **PORT**: Set the port.
+  - You can run this command line to generate a new JWT secret:
+  ```javascript
+  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+  ```
+- **JWT_EXPIRES_IN**: Set the time to expire.
+  - i.e. "60s", "7d"...
+- **PORT**: Set the port (3000 by default).
 
 ## 💻Running the app in Docker
 
