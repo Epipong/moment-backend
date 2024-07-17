@@ -29,8 +29,7 @@ describe('AuthService', () => {
       exports: [AuthService],
     }).compile();
     usersService = usersModuleRef.get<UsersService>(UsersService);
-    const jwtService = usersModuleRef.get<JwtService>(JwtService);
-    authService = new AuthService(usersService, jwtService);
+    authService = usersModuleRef.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {

@@ -1,27 +1,44 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+import { AppModule } from 'src/app.module';
+import { users } from 'src/fixtures/users';
 import { UsersService } from 'src/users/users.service';
-import { AuthService } from 'src/auth/auth.service';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication;
+  let app: NestFastifyApplication;
+  const usersService = { findAll: () => users };
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      providers: [AuthService, UsersService],
-    }).compile();
+    })
+      .overrideProvider(UsersService)
+      .useValue(usersService)
+      .compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter(),
+    );
     await app.init();
+    await app.getHttpAdapter().getInstance().ready();
   });
 
-  it('/register (POST)', () => {
-    return request(app.getHttpServer())
-      .post('/register')
-      .expect(200)
-      .expect('Hello World!');
+  it('/users (GET)', () => {
+    return app
+      .inject({
+        method: 'GET',
+        url: '/users',
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(200);
+        expect(result.payload).toEqual('');
+      });
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
