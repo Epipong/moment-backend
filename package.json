@@ -16,11 +16,11 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:build": "docker compose build",
-    "test": "jest -i",
-    "test:watch": "yarn docker:up && yarn dotenv -e .env.test prisma migrate deploy && jest --watch",
-    "test:cov": "yarn docker:up && yarn dotenv -e .env.test prisma migrate deploy && jest --coverage",
+    "test": "jest -i --config jest.config.ts",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config test/jest-e2e.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

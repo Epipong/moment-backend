@@ -5,17 +5,15 @@ const config: Config.InitialOptions = {
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'js', 'json'],
   rootDir: '.',
-  roots: ['src'],
-  testRegex: '.*\\.spec\\.ts$',
+  roots: ['.'],
+  testRegex: '.e2e-spec.ts$',
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
-  setupFiles: ['dotenv/config'],
-  setupFilesAfterEnv: [`${__dirname}/test/setup.js`],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^src/(.*)$': '<rootDir>/src/$1',
+    '^src/(.*)$': '<rootDir>/../src/$1',
   },
 };
 
