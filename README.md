@@ -38,7 +38,7 @@ Configure the environment variables by creating `.env`, `.env.test` and `.env.pr
 
 ```sh
 NODE_ENV=development
-DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/moment
+DATABASE_URL=postgresql://myuser:mypassword@db/moment
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN="60s"
 PORT=3000

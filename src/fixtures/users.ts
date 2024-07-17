@@ -10,4 +10,25 @@ const user: Readonly<User> = {
   updatedAt: new Date('2024-01-01'),
 };
 
-export { user };
+const users: User[] = [
+  {
+    id: 1,
+    username: 'john.doe',
+    email: 'john.doe@moment.com',
+    password: '@123Password',
+    role: 'USER',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 2,
+    username: 'john.martin',
+    email: 'john.martin@moment.com',
+    password: '@321Password',
+    role: 'ADMIN',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
+
+export { user, users };
