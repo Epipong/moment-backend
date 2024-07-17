@@ -21,7 +21,7 @@ describe('UsersService', () => {
       exports: [UsersService],
     }).compile();
     usersRepository = usersModuleRef.get<UsersRepository>(UsersRepository);
-    usersService = new UsersService(usersRepository);
+    usersService = usersModuleRef.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {

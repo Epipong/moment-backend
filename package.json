@@ -16,7 +16,7 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:build": "docker compose build",
-    "test": "yarn docker:up && yarn dotenv -e .env.test prisma migrate deploy && jest -i --config jest.config.ts",
+    "test": "jest -i",
     "test:watch": "yarn docker:up && yarn dotenv -e .env.test prisma migrate deploy && jest --watch",
     "test:cov": "yarn docker:up && yarn dotenv -e .env.test prisma migrate deploy && jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",

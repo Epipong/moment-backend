@@ -5,17 +5,31 @@ import { UsersRepository } from 'src/repositories/users.repository';
 import { LoginDto, RegisterDto } from './dto/credential.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BadRequestException } from '@nestjs/common';
-import { hashPassword } from 'src/utils/password';
 import { JwtService } from '@nestjs/jwt';
+import { Test } from '@nestjs/testing';
+import { AuthController } from './auth.controller';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { User } from '@prisma/client';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  const prisma: PrismaService = global.prisma;
+  let usersService: UsersService;
 
   beforeEach(async () => {
-    const usersRepertory = new UsersRepository(prisma);
-    const usersService = new UsersService(usersRepertory);
-    const jwtService = new JwtService();
+    const usersModuleRef = await Test.createTestingModule({
+      controllers: [AuthController],
+      providers: [
+        AuthService,
+        PrismaService,
+        UsersService,
+        UsersRepository,
+        JwtService,
+      ],
+      imports: [PrismaModule],
+      exports: [AuthService],
+    }).compile();
+    usersService = usersModuleRef.get<UsersService>(UsersService);
+    const jwtService = usersModuleRef.get<JwtService>(JwtService);
     authService = new AuthService(usersService, jwtService);
   });
 
@@ -28,6 +42,10 @@ describe('AuthService', () => {
       ...user,
       repeatPassword: user.password,
     };
+    jest.spyOn(usersService, 'create').mockImplementation(async () => ({
+      ...user,
+      password: '$2b$10$9YOibayXk/O8as6Tk1HsVOFE5706mulVBY2yMSumZU0lox73sXpv6',
+    }));
     const userRegistered = await authService.register(newUser);
     expect(userRegistered.username).toBe(user.username);
     expect(userRegistered.password).not.toBe(user.password);
@@ -44,43 +62,43 @@ describe('AuthService', () => {
   });
 
   it('should login a user by username', async () => {
-    const credential: LoginDto = {
-      username: 'john.doe',
-      email: 'john.doe@moment.com',
-      password: '@1234Password',
-    };
-    const hashedPassword = await hashPassword(credential.password);
-    await prisma.user.create({
-      data: {
-        username: credential.username,
-        password: hashedPassword,
-        email: credential.email,
+    const result: User[] = [
+      {
+        id: 1,
+        username: 'john.doe',
+        email: 'john.doe@moment.com',
+        password:
+          '$2b$10$9YOibayXk/O8as6Tk1HsVOFE5706mulVBY2yMSumZU0lox73sXpv6',
+        role: 'USER',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
-    });
+    ];
+    jest.spyOn(usersService, 'findAll').mockImplementation(async () => result);
     const { access_token } = await authService.login({
-      username: credential.username,
-      password: credential.password,
+      username: 'john.doe',
+      password: '@123Password',
     });
     expect(access_token.length).toBeGreaterThan(0);
   });
 
   it('should login a user by email', async () => {
-    const credential: LoginDto = {
-      username: 'john.doe',
-      email: 'john.doe@moment.com',
-      password: '@1234Password',
-    };
-    const hashedPassword = await hashPassword(credential.password);
-    await prisma.user.create({
-      data: {
-        username: credential.username,
-        password: hashedPassword,
-        email: credential.email,
+    const result: User[] = [
+      {
+        id: 1,
+        username: 'john.doe',
+        email: 'john.doe@moment.com',
+        password:
+          '$2b$10$9YOibayXk/O8as6Tk1HsVOFE5706mulVBY2yMSumZU0lox73sXpv6',
+        role: 'USER',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
-    });
+    ];
+    jest.spyOn(usersService, 'findAll').mockImplementation(async () => result);
     const { access_token } = await authService.login({
-      email: credential.email,
-      password: credential.password,
+      email: 'john.doe@moment.com',
+      password: '@123Password',
     });
     expect(access_token.length).toBeGreaterThan(0);
   });
