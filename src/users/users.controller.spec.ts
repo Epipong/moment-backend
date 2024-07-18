@@ -17,7 +17,10 @@ describe('UsersController', () => {
       providers: [UsersService, PrismaService, UsersRepository, JwtService],
       imports: [PrismaModule],
       exports: [UsersService],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(null)
+      .compile();
     usersController = usersModuleRef.get(UsersController);
     usersService = usersModuleRef.get(UsersService);
   });

@@ -8,9 +8,16 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { plainToInstance } from 'class-transformer';
+import { UsersController } from 'src/users/users.controller';
+import { UsersRepository } from 'src/repositories/users.repository';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { AuthController } from 'src/auth/auth.controller';
 
 describe('AppController (e2e)', () => {
   let app: NestFastifyApplication;
+
   const usersService = {
     findAll: () => users,
     create: () => ({
@@ -21,6 +28,7 @@ describe('AppController (e2e)', () => {
     update: () => ({ ...user, username: 'davy.tran' }),
     remove: () => jest.fn(),
   };
+
   const authService = {
     register: () => user,
     login: () => ({ access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' }),
@@ -36,13 +44,33 @@ describe('AppController (e2e)', () => {
       .useValue(usersService)
       .overrideProvider(AuthService)
       .useValue(authService)
+      .overrideProvider(PrismaService)
+      .useValue(null)
       .compile();
-
     app = moduleRef.createNestApplication();
     await app.init();
   });
 
   describe('Authentification', () => {
+    it('should compile the module auth', async () => {
+      const module = await Test.createTestingModule({
+        controllers: [AuthController],
+        providers: [
+          AuthService,
+          PrismaService,
+          UsersService,
+          UsersRepository,
+          JwtService,
+        ],
+        imports: [PrismaModule],
+        exports: [AuthService],
+      }).compile();
+
+      expect(module).toBeDefined();
+      expect(module.get(AuthController)).toBeInstanceOf(AuthController);
+      expect(module.get(AuthService)).toBeInstanceOf(AuthService);
+    });
+
     describe('POST: /auth/register', () => {
       beforeEach(() => {
         jest.spyOn(authService, 'register');
@@ -77,6 +105,19 @@ describe('AppController (e2e)', () => {
   });
 
   describe('Users', () => {
+    it('should compile the module user', async () => {
+      const module = await Test.createTestingModule({
+        controllers: [UsersController],
+        providers: [UsersService, PrismaService, UsersRepository, JwtService],
+        imports: [PrismaModule],
+        exports: [UsersService],
+      }).compile();
+
+      expect(module).toBeDefined();
+      expect(module.get(UsersController)).toBeInstanceOf(UsersController);
+      expect(module.get(UsersService)).toBeInstanceOf(UsersService);
+    });
+
     describe('POST: /users', () => {
       beforeEach(() => {
         jest.spyOn(usersService, 'create');

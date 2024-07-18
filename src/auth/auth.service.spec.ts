@@ -27,7 +27,11 @@ describe('AuthService', () => {
       ],
       imports: [PrismaModule],
       exports: [AuthService],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(null)
+      .compile();
+
     usersService = usersModuleRef.get<UsersService>(UsersService);
     authService = usersModuleRef.get<AuthService>(AuthService);
   });
