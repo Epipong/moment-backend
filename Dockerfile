@@ -36,6 +36,4 @@ COPY --from=build /usr/src/app/migrate-and-start.sh .
 
 EXPOSE 3000
 
-RUN sleep 30
-
 CMD [ "./migrate-and-start.sh" ]

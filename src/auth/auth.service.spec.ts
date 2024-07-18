@@ -27,13 +27,10 @@ describe('AuthService', () => {
       ],
       imports: [PrismaModule],
       exports: [AuthService],
-    })
-      .overrideProvider(PrismaService)
-      .useValue(null)
-      .compile();
+    }).compile();
 
-    usersService = usersModuleRef.get<UsersService>(UsersService);
-    authService = usersModuleRef.get<AuthService>(AuthService);
+    usersService = usersModuleRef.get(UsersService);
+    authService = usersModuleRef.get(AuthService);
   });
 
   it('should be defined', () => {
@@ -59,6 +56,7 @@ describe('AuthService', () => {
       ...user,
       repeatPassword: '123',
     };
+    jest.spyOn(usersService, 'create').mockImplementation(async () => user);
     expect(async () => {
       await authService.register(newUser);
     }).rejects.toThrow(BadRequestException);

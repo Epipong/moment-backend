@@ -34,7 +34,7 @@ $ yarn install
 
 ## ⚙️Configuration
 
-Configure the environment variables by creating `.env`, `.env.test` and `.env.prod` files in the root of the project and adding your configurations to it:
+Configure the environment variables by creating `.env` and `.env.prod` files in the root of the project and adding your configurations to it:
 
 ```sh
 NODE_ENV=development

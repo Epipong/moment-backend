@@ -11,19 +11,6 @@ services:
       - moment:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-
-  db_test:
-    image: postgres
-    container_name: postgres-test
-    environment:
-      POSTGRES_USER: test_myuser
-      POSTGRES_PASSWORD: test_mypassword
-      POSTGRES_DB: test_moment
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - '5433:5432'
-  
   app:
     build:
       context: .

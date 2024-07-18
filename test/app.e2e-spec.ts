@@ -64,7 +64,10 @@ describe('AppController (e2e)', () => {
         ],
         imports: [PrismaModule],
         exports: [AuthService],
-      }).compile();
+      })
+        .overrideProvider(PrismaService)
+        .useValue(null)
+        .compile();
 
       expect(module).toBeDefined();
       expect(module.get(AuthController)).toBeInstanceOf(AuthController);
@@ -111,7 +114,10 @@ describe('AppController (e2e)', () => {
         providers: [UsersService, PrismaService, UsersRepository, JwtService],
         imports: [PrismaModule],
         exports: [UsersService],
-      }).compile();
+      })
+        .overrideProvider(PrismaService)
+        .useValue(null)
+        .compile();
 
       expect(module).toBeDefined();
       expect(module.get(UsersController)).toBeInstanceOf(UsersController);

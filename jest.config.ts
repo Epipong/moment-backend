@@ -10,7 +10,6 @@ const config: Config.InitialOptions = {
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   setupFiles: ['dotenv/config'],
-  setupFilesAfterEnv: [`${__dirname}/test/setup.js`],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
